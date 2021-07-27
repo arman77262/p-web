@@ -2,15 +2,15 @@
 
 include_once 'inc/header.php';
 include_once 'inc/sidebar.php';
-include_once '../classes/Category.php';
-$ct = new Category();
+include_once '../classes/User.php';
+$user = new User();
 
 if (isset($_GET['uid'])) {
-    $uid = $_GET['uid'];
+    $id = $_GET['uid'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $update = $ct->updateUser($_POST, $_FILES, $uid);
+    $update = $user->userUpdate($_POST, $_FILES, $id);
 }
 
 ?>
@@ -36,45 +36,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         ?>
                         <span>
 
-<div class="card shadow">
-    <h4 class="card-header">Category Add Form</h4>
-    <div class="card-body">
+        <div class="card shadow">
+            <h4 class="card-header">User Profile Update Form</h4>
+            <div class="card-body">
 
-    <?php 
-        $getUser = $ct->userInfo($uid);
-        if ($getUser) {
-            while ($urow = mysqli_fetch_assoc($getUser)) {
-                ?>
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label class="form-label">User Name</label>
-                <input type="text" name="username" class="form-control" value="<?=$urow['username']?>" />
+            <?php 
+                $getData = $user->userInfo($id);
+                if ($getData) {
+                    while ($row = mysqli_fetch_assoc($getData)) {
+                        ?>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">User Name</label>
+                        <input type="text" name="username" class="form-control" value="<?=$row['username']?>" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">User Photo</label>
+                        <input type="file" name="image" class="form-control"/>
+                        <img src="<?=$row['image']?>" alt="" class="img-thumbnail">
+                    </div>
+
+
+                    <div>
+                        <div>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
+                                Update Profile
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+                        <?php
+                    }
+                }
+            ?>
+                
+
             </div>
-            <div class="mb-3">
-                <label class="form-label">Photo</label>
-                <input type="file" name="image">
-                <img src="<?=$urow['image']?>" class="img-thumbnail" alt="">
-            </div>
-
-
-            <div>
-                <div>
-                    <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
-                        Update Profile
-                    </button>
-
-                </div>
-            </div>
-        </form>
-                <?php
-            }
-        }
-    ?>
-
-        
-
-    </div>
-</div>
+        </div>
                 </div> <!-- end col -->
 
 

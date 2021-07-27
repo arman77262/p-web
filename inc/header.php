@@ -1,3 +1,8 @@
+<?php 
+    include_once 'classes/Category.php';
+    $ct = new Category();
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -68,12 +73,23 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="category.php" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
-                                <div class="dropdown-menu" aria-labelledby="dropdown05">
-                                    <a class="dropdown-item" href="category.php">Lifestyle</a>
-                                    <a class="dropdown-item" href="category.php">Food</a>
-                                    <a class="dropdown-item" href="category.php">Adventure</a>
-                                    <a class="dropdown-item" href="category.php">Travel</a>
-                                    <a class="dropdown-item" href="category.php">Business</a>
+                                <div class="dropdown-menu" 
+                                aria-labelledby="dropdown05">
+                            <?php 
+
+                                $allCat = $ct->AllCategory();
+                                if ($allCat) {
+                                    while ($catRow = mysqli_fetch_assoc($allCat)) {
+                                        ?>
+                                    <a class="dropdown-item" href="category.php"><?=$catRow['catName']?></a>
+                                        <?php
+                                    }
+                                }
+                            
+                            ?>
+                                
+                                       
+                                    
                                 </div>
 
                             </li>
