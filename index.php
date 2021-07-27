@@ -27,7 +27,7 @@ $post = new Post();
             while ($row = mysqli_fetch_assoc($getPost)) {
           ?>
               <div class="col-md-6">
-                <a href="blog-single.php" class="blog-entry element-animate" data-animate-effect="fadeIn">
+                <a href="blog-single.php?singleId=<?=base64_encode($row['postId'])?>" class="blog-entry element-animate" data-animate-effect="fadeIn">
                   <img src="admin/<?=$row['imageOne']?>" alt="Image placeholder">
                   <div class="blog-content-body">
                     <div class="post-meta">

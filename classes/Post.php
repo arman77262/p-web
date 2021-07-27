@@ -225,11 +225,25 @@
 
      //Frotend Function
      public function latestPost(){
-         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId ORDER BY tbl_post.postId DESC";
+         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC";
 
          $post_result = $this->db->select($post_query);
          return $post_result;
      }
+     
+     //Frontend Function Single Post By id
+     public function singlePost($id){
+         $single_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image, tbl_category.catName FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId INNER JOIN tbl_category ON tbl_post.catId = tbl_category.catId WHERE tbl_post.postId = '$id'";
+         $single_result = $this->db->select($single_query);
+         return $single_result;
+     }
+
+
+
+
+
+
+
 
     }
 

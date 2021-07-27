@@ -2,11 +2,6 @@
 
    class Format{
 
-       /*  public function formatedate($data)
-        {
-            return date("M d, Y", strtotime($data));
-        } */
-
         public function fromatdate($data){
             return date("M d, Y", strtotime($data));
         }
