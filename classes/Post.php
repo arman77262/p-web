@@ -1,7 +1,7 @@
 <?php 
-
-    include_once '../lib/Database.php';
-    include_once '../helpers/Format.php';
+    $filepath = realpath(dirname(__FILE__));
+    include_once ($filepath.'/../lib/Database.php');
+    include_once ($filepath . '/../helpers/Format.php');
 
     class Post{
 
@@ -221,6 +221,15 @@
                     return $msg;
           }
       }
+
+
+     //Frotend Function
+     public function latestPost(){
+         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId ORDER BY tbl_post.postId DESC";
+
+         $post_result = $this->db->select($post_query);
+         return $post_result;
+     }
 
     }
 
