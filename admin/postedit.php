@@ -42,7 +42,7 @@ if (isset($_GET['editPost'])) {
                         <?php
                         }
                         ?>
-                        <span>
+                    <span>
 
 <div class="card shadow">
     <h4 class="card-header">Post Edit Form</h4>
