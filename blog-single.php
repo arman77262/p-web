@@ -61,14 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             <div class="pt-5">
+              <h3 class="mb-5">Comments</h3>
             <?php 
               $pid = $row['postId'];
               $allcomment = $cmt->allComment($pid);
               if ($allcomment) {
                 while ($crow = mysqli_fetch_assoc($allcomment)) {
-                  $num_rows = mysqli_num_rows($allcomment);
                   ?>
-            <h3 class="mb-5"><?=$num_rows?> Comments</h3>
               <ul class="comment-list">
                 <li class="comment">
                   <div class="vcard">
@@ -80,21 +79,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p><?=$crow['message']?></p>
                   </div>
 
+                  <?php 
+                    if ($crow['admin_reply']) {
+                      ?>
                   <ul class="children">
                     <li class="comment">
                       <div class="vcard">
-                        <img src="images/person_1.jpg" alt="Image placeholder">
+                        <img src="admin/<?=$crow['image']?>" alt="Image placeholder">
                       </div>
                       <div class="comment-body">
-                        <h3>Jean Doe</h3>
-                        <div class="meta">January 9, 2018 at 2:21pm</div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                        <h3><?=$crow['username']?></h3>
+                        <div class="meta"><?=$crow['update_date']?></div>
+                        <p><?=$crow['admin_reply']?></p>
                       </div>
 
 
 
                     </li>
                   </ul>
+                      <?php
+                    }
+                  ?>
+
+                  
                 </li>
 
 
@@ -123,6 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <span>
 
                     <form action="" method="POST" class="p-5 bg-light">
+
+                      <input type="hidden" name="userId" class="form-control" id="name" value="<?=$row['userId']?>">
 
                       <input type="hidden" name="postId" class="form-control" id="name" value="<?=$row['postId']?>">
                       <div class="form-group">

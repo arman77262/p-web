@@ -1,6 +1,8 @@
 <?php 
     include_once 'classes/Category.php';
     $ct = new Category();
+    include_once 'classes/SiteOption.php';
+    $site = new SiteOption();
 ?>
 
 <!doctype html>
@@ -34,12 +36,22 @@
             <div class="top-bar">
                 <div class="container">
                     <div class="row">
+                        <?php 
+                            $allLink = $site->allSocial();
+                            if ($allLink) {
+                                while ($link = mysqli_fetch_assoc($allLink)) {
+                                    ?>
                         <div class="col-9 social">
-                            <a href="#"><span class="fa fa-twitter"></span></a>
-                            <a href="#"><span class="fa fa-facebook"></span></a>
+                            <a href="<?=$link['twtter']?>"><span class="fa fa-twitter"></span></a>
+                            <a href="<?=$link['facebook']?>" target="_blank"><span class="fa fa-facebook"></span></a>
                             <a href="#"><span class="fa fa-instagram"></span></a>
                             <a href="#"><span class="fa fa-youtube-play"></span></a>
                         </div>
+                                    <?php
+                                }
+                            }
+                        ?>
+                        
                         <div class="col-3 search-top">
                             <!-- <a href="#"><span class="fa fa-search"></span></a> -->
                             <form action="#" class="search-top-form">
