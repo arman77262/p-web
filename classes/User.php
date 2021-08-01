@@ -1,7 +1,8 @@
 <?php 
 
-    include_once '../lib/Database.php';
-    include_once '../helpers/Format.php';
+    $filepath = realpath(dirname(__FILE__));
+    include_once ($filepath.'/../lib/Database.php');
+    include_once ($filepath.'/../helpers/Format.php');
 
     class User{
 
@@ -17,9 +18,17 @@
             return $result;
         }
 
+        //Show Forneted User Info
+        public function userBio(){
+            $user_Query = "SELECT * FROM tbl_user";
+            $result = $this->db->select($user_Query);
+            return $result;
+        }
+
         public function userUpdate($data, $file, $id){
             $username = $this->fr->validation($data['username']);
-
+            $user_bio = $this->fr->validation($data['user_bio']);
+        
             $permited = array('jpg', 'jpeg', 'png', 'gif');
             $file_name = $file['image']['name'];
             $file_size = $file['image']['size'];
@@ -30,8 +39,8 @@
             $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
             $upload_image = "upload/".$unique_image;
 
-            if (empty($username)) {
-                $msg = "User Name Fild must not be empty";
+            if (empty($username) || empty($user_bio)) {
+                $msg = "User Name & User Bio Fild must not be empty";
                 return $msg;
             }else {
                 if (!empty($file_name)) {
@@ -44,7 +53,7 @@
                     }else {
                         move_uploaded_file($file_temp, $upload_image);
 
-                        $query = "UPDATE tbl_user SET username = '$username', image='$upload_image' WHERE userId = '$id'";
+                        $query = "UPDATE tbl_user SET username = '$username', image='$upload_image', user_bio = '$user_bio' WHERE userId = '$id'";
 
                         $result = $this->db->insert($query);
                         if ($result) {
@@ -56,7 +65,7 @@
                         }
                     }
                 }else {
-                    $query = "UPDATE tbl_user SET username = '$username' WHERE userId = '$id'";
+                    $query = "UPDATE tbl_user SET username = '$username', user_bio = '$user_bio' WHERE userId = '$id'";
 
                         $result = $this->db->insert($query);
                         if ($result) {

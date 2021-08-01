@@ -1,3 +1,16 @@
+<?php 
+    include_once 'classes/User.php';
+    $user = new User();
+    include_once 'classes/SiteOption.php';
+    $site = new SiteOption();
+    include_once 'classes/Post.php';
+    $pt = new Post();
+    include_once 'classes/Category.php';
+    $ct = new Category();
+    include_once 'helpers/Format.php';
+    $fr = new Format();
+?>
+
 <div class="col-md-12 col-lg-4 sidebar">
     <div class="sidebar-box search-form-wrap">
         <form action="#" class="search-form">
@@ -9,59 +22,66 @@
     </div>
     <!-- END sidebar-box -->
     <div class="sidebar-box">
+        <?php 
+            $userInfo = $user->userBio();
+            if ($userInfo) {
+                $uinfo = mysqli_fetch_assoc($userInfo);
+                ?>
         <div class="bio text-center">
-            <img src="images/person_1.jpg" alt="Image Placeholder" class="img-fluid">
+            <img src="admin/<?=$uinfo['image']?>" alt="Image Placeholder" class="img-fluid">
             <div class="bio-body">
-                <h2>David Craig</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias minus.</p>
+                <h2><?=$uinfo['username']?></h2>
+                <p><?=$uinfo['user_bio']?></p>
                 <p><a href="#" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
+                <?php 
+                    $allLinks = $site->allSocial();
+                    if ($allLinks) {
+                        $links = mysqli_fetch_assoc($allLinks);
+                        ?>
                 <p class="social">
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
+                    <a href="<?=$links['facebook']?>" class="p-2"><span class="fa fa-facebook"></span></a>
                     <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
                     <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
                     <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
                 </p>
+                        <?php
+                    }
+                ?>
+                
             </div>
         </div>
+                <?php
+            }
+        ?>
+        
     </div>
     <!-- END sidebar-box -->
     <div class="sidebar-box">
         <h3 class="heading">Popular Posts</h3>
         <div class="post-entry-sidebar">
             <ul>
+                <?php 
+                    $allPost = $pt->showPopulerPost();
+                    if ($allPost) {
+                        while ($prow = mysqli_fetch_assoc($allPost)) {
+                            ?>
                 <li>
                     <a href="">
-                        <img src="images/img_2.jpg" alt="Image placeholder" class="mr-4">
+                        <img src="admin/<?=$prow['imageOne']?>" alt="Image placeholder" class="mr-4">
                         <div class="text">
-                            <h4>How to Find the Video Games of Your Youth</h4>
+                            <h4><?=$prow['title']?></h4>
                             <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span>
+                                <span class="mr-2"><?=$fr->fromatdate($prow['create_time'])?> </span>
                             </div>
                         </div>
                     </a>
                 </li>
-                <li>
-                    <a href="">
-                        <img src="images/img_4.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>How to Find the Video Games of Your Youth</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="images/img_12.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>How to Find the Video Games of Your Youth</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
+                            <?php
+                        }
+                    }
+                ?>
+                
+                
             </ul>
         </div>
     </div>
@@ -70,11 +90,29 @@
     <div class="sidebar-box">
         <h3 class="heading">Categories</h3>
         <ul class="categories">
-            <li><a href="#">Food <span>(12)</span></a></li>
-            <li><a href="#">Travel <span>(22)</span></a></li>
-            <li><a href="#">Lifestyle <span>(37)</span></a></li>
-            <li><a href="#">Business <span>(42)</span></a></li>
-            <li><a href="#">Adventure <span>(14)</span></a></li>
+            <?php 
+
+                $allCat = $ct->AllCategory();
+                if ($allCat) {
+                    while ($catRow = mysqli_fetch_assoc($allCat)) {
+                       ?>
+                        <li><a href="#"><?=$catRow['catName']?>
+                         <span>
+                             (<?php 
+                                $catNum = $pt->catNum($catRow['catId']);
+                                if ($catNum) {
+                                    echo $num = mysqli_num_rows($catNum);
+                                }else {
+                                    echo 0;
+                                }
+                             ?>)
+                        </span></a></li>
+                       <?php
+                    }
+                }
+            
+            ?>
+            
         </ul>
     </div>
     <!-- END sidebar-box -->
@@ -82,18 +120,17 @@
     <div class="sidebar-box">
         <h3 class="heading">Tags</h3>
         <ul class="tags">
-            <li><a href="#">Travel</a></li>
-            <li><a href="#">Adventure</a></li>
-            <li><a href="#">Food</a></li>
-            <li><a href="#">Lifestyle</a></li>
-            <li><a href="#">Business</a></li>
-            <li><a href="#">Freelancing</a></li>
-            <li><a href="#">Travel</a></li>
-            <li><a href="#">Adventure</a></li>
-            <li><a href="#">Food</a></li>
-            <li><a href="#">Lifestyle</a></li>
-            <li><a href="#">Business</a></li>
-            <li><a href="#">Freelancing</a></li>
+            <?php 
+                $allTags = $pt->showPopulerPost();
+                if ($allTags) {
+                   while ($tag = mysqli_fetch_assoc($allTags)) {
+                       ?>
+                    <li><a href="#"><?=$tag['tags']?></a></li>
+                       <?php
+                   }
+                }
+            ?>
+            
         </ul>
     </div>
 </div>

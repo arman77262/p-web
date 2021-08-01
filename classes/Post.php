@@ -238,6 +238,17 @@
          return $single_result;
      }
 
+     public function showPopulerPost(){
+         $pp = "SELECT * FROM tbl_post ORDER BY postId DESC LIMIT 3";
+         $p_result = $this->db->select($pp);
+         return $p_result;
+     }
+
+     public function catNum($id){
+         $ct_query = "SELECT * FROM tbl_post WHERE tbl_post.catId = '$id'";
+         $cr_res = $this->db->select($ct_query);
+         return $cr_res;
+     }
 
 
 
