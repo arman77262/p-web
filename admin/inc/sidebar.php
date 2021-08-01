@@ -84,6 +84,9 @@
                           <li>
                               <a href="social-link.php" class="has-arrow">Social Link</a>
                           </li>
+                          <li>
+                              <a href="site-logo.php" class="has-arrow">Site Logo</a>
+                          </li>
                       </ul>
                   </li>
               </ul>

@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </tr>
                     <tr>
                         <td><label for="">User Photo</label></td>
-                        <td><img src="<?=Session::get('userImage')?>"></td>
+                        <td><img style="width: 200px;" src="<?=Session::get('userImage')?>"></td>
                     </tr>
                 </table>
                

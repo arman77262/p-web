@@ -37,6 +37,27 @@
                 return $msg;
             }
         }
+
+        //Site Logo
+        public function siteLogo(){
+            $select_query = "SELECT * FROM tbl_logo WHERE logoId = '1'";
+            $logo = $this->db->select($select_query);
+            return $logo;
+        }
+
+        public function updateLogo($data){
+            $logo = $this->fr->validation($data['logo']);
+
+            $update_logo = "UPDATE tbl_logo SET logoName = '$logo' WHERE logoId = '1'";
+            $logo_result = $this->db->update($update_logo);
+            if ($logo_result) {
+                $msg = "Logo Update Successfully";
+                return $msg;
+            }else {
+                $msg = "Logo Not Update";
+                return $msg;
+            }
+        }
     }
 
 ?>
