@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="mb-3">
                         <label class="form-label">User Bio</label>
-                        <textarea class="form-control" name="user_bio"></textarea>
+                        <textarea class="form-control" name="user_bio"><?=$row['user_bio']?></textarea>
                     </div>
 
 

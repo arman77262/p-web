@@ -250,10 +250,19 @@
          return $cr_res;
      }
 
+     //Slider Post
+     public function sliderPost(){
+         $slider_query = "SELECT tbl_post.*, tbl_category.catName, tbl_user.image, tbl_user.username FROM tbl_post INNER JOIN tbl_category ON tbl_post.catId = tbl_category.catId INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE postType = 2 AND status = 1";
+         $select_result = $this->db->select($slider_query);
+         return $select_result;
+     }
 
-
-
-
+     //Search Post
+     public function searchPost($id){
+         $search_que = "SELECT tbl_post.*, tbl_user.image, tbl_user.username FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.title LIKE '%$id%'";
+         $search_res = $this->db->select($search_que);
+         return $search_res;
+     }
 
 
     }
