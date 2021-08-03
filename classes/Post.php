@@ -224,8 +224,8 @@
 
 
      //Frotend Function
-     public function latestPost(){
-         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC";
+     public function latestPost($offset, $limit){
+         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC LIMIT $offset, $limit";
 
          $post_result = $this->db->select($post_query);
          return $post_result;
@@ -264,6 +264,12 @@
          return $search_res;
      }
 
+     //For pagination
+     public function numPost(){
+         $post_que = "SELECT * FROM tbl_post";
+         $post = $this->db->select($post_que);
+         return $post;
+     }
 
     }
 
