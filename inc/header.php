@@ -103,7 +103,7 @@
                                 if ($allCat) {
                                     while ($catRow = mysqli_fetch_assoc($allCat)) {
                                         ?>
-                                    <a class="dropdown-item" href="category.php"><?=$catRow['catName']?></a>
+                                    <a class="dropdown-item" href="category.php?catId=<?=base64_encode($catRow['catId'])?>"><?=$catRow['catName']?></a>
                                         <?php
                                     }
                                 }

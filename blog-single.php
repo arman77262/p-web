@@ -14,6 +14,10 @@ if (isset($_GET['singleId'])) {
   $postId = base64_decode($_GET['singleId']);
 }
 
+if (isset($_GET['catId'])) {
+  $catId = base64_decode($_GET['catId']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $comment = $cmt->addComment($_POST);
 }
@@ -62,55 +66,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="pt-5">
               <h3 class="mb-5">Comments</h3>
-            <?php 
+              <?php
               $pid = $row['postId'];
               $allcomment = $cmt->allComment($pid);
               if ($allcomment) {
                 while ($crow = mysqli_fetch_assoc($allcomment)) {
-                  ?>
-              <ul class="comment-list">
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3><?=$crow['name']?></h3>
-                    <div class="meta"><?=$fr->fromatdate($row['create_time'])?></div>
-                    <p><?=$crow['message']?></p>
-                  </div>
-
-                  <?php 
-                    if ($crow['admin_reply']) {
-                      ?>
-                  <ul class="children">
+              ?>
+                  <ul class="comment-list">
                     <li class="comment">
                       <div class="vcard">
-                        <img src="admin/<?=$crow['image']?>" alt="Image placeholder">
+                        <img src="images/person_1.jpg" alt="Image placeholder">
                       </div>
                       <div class="comment-body">
-                        <h3><?=$crow['username']?></h3>
-                        <div class="meta"><?=$crow['update_date']?></div>
-                        <p><?=$crow['admin_reply']?></p>
+                        <h3><?= $crow['name'] ?></h3>
+                        <div class="meta"><?= $fr->fromatdate($row['create_time']) ?></div>
+                        <p><?= $crow['message'] ?></p>
                       </div>
 
+                      <?php
+                      if ($crow['admin_reply']) {
+                      ?>
+                        <ul class="children">
+                          <li class="comment">
+                            <div class="vcard">
+                              <img src="admin/<?= $crow['image'] ?>" alt="Image placeholder">
+                            </div>
+                            <div class="comment-body">
+                              <h3><?= $crow['username'] ?></h3>
+                              <div class="meta"><?= $crow['update_date'] ?></div>
+                              <p><?= $crow['admin_reply'] ?></p>
+                            </div>
+
+
+
+                          </li>
+                        </ul>
+                      <?php
+                      }
+                      ?>
 
 
                     </li>
+
+
                   </ul>
-                      <?php
-                    }
-                  ?>
-
-                  
-                </li>
-
-
-              </ul>
-                  <?php
+              <?php
                 }
               }
-            ?>
-              
+              ?>
+
               <!-- END comment-list -->
 
               <div class="comment-form-wrap pt-5">
@@ -131,9 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <form action="" method="POST" class="p-5 bg-light">
 
-                      <input type="hidden" name="userId" class="form-control" id="name" value="<?=$row['userId']?>">
+                      <input type="hidden" name="userId" class="form-control" id="name" value="<?= $row['userId'] ?>">
 
-                      <input type="hidden" name="postId" class="form-control" id="name" value="<?=$row['postId']?>">
+                      <input type="hidden" name="postId" class="form-control" id="name" value="<?= $row['postId'] ?>">
                       <div class="form-group">
                         <label for="name">Name *</label>
                         <input type="text" name="name" class="form-control" id="name">
@@ -161,20 +165,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           </div>
 
-      <?php
-        }
-      }
-      ?>
 
 
-      <!-- END main-content -->
 
-      <?php
+          <!-- END main-content -->
 
-      include_once 'inc/sidebar.php';
+          <?php
 
-      ?>
-      <!-- END sidebar -->
+          include_once 'inc/sidebar.php';
+
+          ?>
+          <!-- END sidebar -->
 
     </div>
   </div>
@@ -188,47 +189,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </div>
     <div class="row">
+    
+    <?php 
+      $rel_post = $post->relatedPost($row['catId']);
+      if ($rel_post) {
+        while ($rp = mysqli_fetch_assoc($rel_post)) {
+          ?>
       <div class="col-md-6 col-lg-4">
-        <a href="#" class="a-block sm d-flex align-items-center height-md" style="background-image: url('images/img_2.jpg'); ">
+        <a href="blog-single.php?singleId=<?=base64_encode($rp['postId'])?>" class="a-block sm d-flex align-items-center height-md" style="background-image: url(admin/<?=$rp['imageOne']?>); ">
           <div class="text">
             <div class="post-meta">
-              <span class="category">Lifestyle</span>
-              <span class="mr-2">March 15, 2018 </span> &bullet;
-              <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+              <span class="category"><?=$rp['catName']?></span>
+              <span class="mr-2"><?=$fr->fromatdate($rp['title'])?> </span> &bullet;
+             
             </div>
-            <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
+            <h3><?=$rp['title']?></h3>
           </div>
         </a>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <a href="#" class="a-block sm d-flex align-items-center height-md" style="background-image: url('images/img_3.jpg'); ">
-          <div class="text">
-            <div class="post-meta">
-              <span class="category">Travel</span>
-              <span class="mr-2">March 15, 2018 </span> &bullet;
-              <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-            </div>
-            <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-          </div>
-        </a>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <a href="#" class="a-block sm d-flex align-items-center height-md" style="background-image: url('images/img_4.jpg'); ">
-          <div class="text">
-            <div class="post-meta">
-              <span class="category">Food</span>
-              <span class="mr-2">March 15, 2018 </span> &bullet;
-              <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-            </div>
-            <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-          </div>
-        </a>
-      </div>
+          <?php
+        }
+      }
+    ?>
+
+      
+
+
     </div>
   </div>
 
 
 </section>
+
+<?php
+        }
+      }
+?>
 <!-- END section -->
 
 <?php

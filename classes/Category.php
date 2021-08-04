@@ -118,6 +118,12 @@
        }
 
       
+       //category Name for select Cat
+       public function catName($id){
+            $cat_id = "SELECT * FROM tbl_category WHERE catId = '$id'";
+            $c_result = $this->db->select($cat_id);
+            return $c_result;
+       }
     }
 
 ?>

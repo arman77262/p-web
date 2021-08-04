@@ -271,6 +271,28 @@
          return $post;
      }
 
+     //Blog Single Related Post
+     public function relatedPost($id){
+         $rel_que = "SELECT tbl_post.*, tbl_category.catName FROM tbl_post INNER JOIN tbl_category ON tbl_post.catId = tbl_category.catId WHERE tbl_post.catId = '$id' ORDER BY tbl_post.postId DESC LIMIT 3";
+         $result = $this->db->select($rel_que);
+
+         return $result;
+     }
+
+     //Category Releted Post
+     public function categoryPost($id,$offset, $limit){
+         $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image, tbl_category.catName FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId INNER JOIN tbl_category ON tbl_post.catId = tbl_category.catId WHERE tbl_post.status = '1' AND tbl_post.catId = '$id' ORDER BY tbl_post.postId DESC LIMIT $offset, $limit";
+
+         $cat_result = $this->db->select($post_query);
+         return $cat_result;
+     }
+
+     //Show Cateogry Pagination Post
+     public function numCatPost($catId){
+         $select_cat_q = "SELECT * FROM tbl_post WHERE tbl_post.catId = '$catId'";
+         $res = $this->db->select($select_cat_q);
+         return $res;
+     }
     }
 
 ?>
