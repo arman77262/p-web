@@ -58,6 +58,76 @@
                 return $msg;
             }
         }
+
+        //About Us Option
+        public function aboutInfo(){
+            $about_que = "SELECT * FROM tbl_about WHERE aboutId = '1'";
+            $about_result = $this->db->select($about_que);
+            return $about_result;
+        }
+
+        public function aboutUpdate($data, $file){
+            $username = $this->fr->validation($data['username']);
+            $user_details = $this->fr->validation($data['user_details']);
+        
+            $permited = array('jpg', 'jpeg', 'png', 'gif');
+            $file_name = $file['image']['name'];
+            $file_size = $file['image']['size'];
+            $file_temp = $file['image']['tmp_name'];
+
+            $div = explode('.', $file_name);
+            $file_ext = strtolower(end($div));
+            $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
+            $upload_image = "upload/".$unique_image;
+
+            if (empty($username) || empty($user_details)) {
+                $msg = "User Name & User Details Fild must not be empty";
+                return $msg;
+            }else {
+                if (!empty($file_name)) {
+                    if($file_size > 1048567){
+                        $msg = "File Size Must Be less than 1 MB";
+                        return $msg;
+                    }elseif (in_array($file_ext, $permited) == false) {
+                        $msg = "You Can Upload Only:-". implode(', ', $permited);
+                        return $msg;
+                    }else {
+                        move_uploaded_file($file_temp, $upload_image);
+
+                        $query = "UPDATE tbl_about SET username='$username', image = '$upload_image', userDetails = '$user_details' WHERE aboutId = '1'";
+
+                        $result = $this->db->insert($query);
+                        if ($result) {
+                            $msg = "About Updated Successfully";
+                            return $msg;
+                        }else {
+                            $msg = "Something Wrong About is not Updated";
+                            return $msg;
+                        }
+                    }
+                }else {
+
+                        $query = "UPDATE tbl_about SET username='$username', userDetails = '$user_details' WHERE aboutId = '1'";    
+                        $result = $this->db->insert($query);
+                        if ($result) {
+                            $msg = "About Updated Successfully";
+                            return $msg;
+                        }else {
+                            $msg = "Something Wrong About is not Updated";
+                            return $msg;
+                        }
+                }
+            }
+        
+        }
+
+        //About Page Latest Post
+         public function latestPost(){
+            $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC LIMIT 4";
+
+            $post_result = $this->db->select($post_query);
+            return $post_result;
+        }
     }
 
 ?>

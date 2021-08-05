@@ -89,6 +89,13 @@
                           </li>
                       </ul>
                   </li>
+
+                  <li>
+                      <a href="about-us.php">
+                          <i class="uil-home-alt"></i>
+                          <span>About Us</span>
+                      </a>
+                  </li>
               </ul>
           </div>
           <!-- Sidebar -->
