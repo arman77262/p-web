@@ -96,6 +96,13 @@
                           <span>About Us</span>
                       </a>
                   </li>
+
+                  <li>
+                      <a href="contact-us.php">
+                          <i class="uil-home-alt"></i>
+                          <span>Contact Us</span>
+                      </a>
+                  </li>
               </ul>
           </div>
           <!-- Sidebar -->

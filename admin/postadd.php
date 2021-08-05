@@ -36,7 +36,7 @@
                         <?php
                         }
                         ?>
-                        <span>
+                    <span>
 
                             <div class="card shadow">
                                 <h4 class="card-header">Post Add Form</h4>

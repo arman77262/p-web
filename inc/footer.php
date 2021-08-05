@@ -1,56 +1,62 @@
+<?php
+include_once 'classes/SiteOption.php';
+$sop = new SiteOption();
+include_once 'classes/Post.php';
+$pt = new Post();
+include_once 'helpers/Format.php';
+$fr = new Format();
+?>
+
 <footer class="site-footer">
     <div class="container">
         <div class="row mb-5">
+
+        <?php 
+            $about = $sop->aboutInfo();
+            if ($about) {
+                while ($arow = mysqli_fetch_assoc($about)) {
+                    ?>
             <div class="col-md-4">
                 <h3>About Us</h3>
                 <p class="mb-4">
-                    <img src="images/img_1.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="admin/<?=$arow['image']?>" alt="Image placeholder" class="img-fluid">
                 </p>
 
-                <p>Lorem ipsum dolor sit amet sa ksal sk sa, consectetur adipisicing elit. Ipsa harum inventore reiciendis. <a href="#">Read More</a></p>
+                <p><?=$fr->textShorten($arow['userDetails'], 100)?> <a href="about.php">Read More</a></p>
             </div>
+                    <?php
+                }
+            }
+        ?>
+
+            
             <div class="col-md-6 ml-auto">
                 <div class="row">
                     <div class="col-md-7">
                         <h3>Latest Post</h3>
                         <div class="post-entry-sidebar">
                             <ul>
+                            <?php 
+                                $lpost = $pt->showPopulerPost();
+                                if ($lpost) {
+                                    while ($lrow = mysqli_fetch_assoc($lpost)) {
+                                        ?>
                                 <li>
                                     <a href="">
-                                        <img src="images/img_6.jpg" alt="Image placeholder" class="mr-4">
+                                        <img src="admin/<?=$lrow['imageOne']?>" alt="Image placeholder" class="mr-4">
                                         <div class="text">
-                                            <h4>How to Find the Video Games of Your Youth</h4>
+                                            <h4><?=$lrow['title']?></h4>
                                             <div class="post-meta">
-                                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                                                <span class="mr-2"><?=$fr->fromatdate($lrow['create_time'])?> </span> &bullet;
                                             </div>
                                         </div>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="">
-                                        <img src="images/img_3.jpg" alt="Image placeholder" class="mr-4">
-                                        <div class="text">
-                                            <h4>How to Find the Video Games of Your Youth</h4>
-                                            <div class="post-meta">
-                                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <img src="images/img_4.jpg" alt="Image placeholder" class="mr-4">
-                                        <div class="text">
-                                            <h4>How to Find the Video Games of Your Youth</h4>
-                                            <div class="post-meta">
-                                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                                
                             </ul>
                         </div>
                     </div>
@@ -62,9 +68,6 @@
                             <h3>Quick Links</h3>
                             <ul class="list-unstyled">
                                 <li><a href="#">About Us</a></li>
-                                <li><a href="#">Travel</a></li>
-                                <li><a href="#">Adventure</a></li>
-                                <li><a href="#">Courses</a></li>
                                 <li><a href="#">Categories</a></li>
                             </ul>
                         </div>
@@ -72,12 +75,21 @@
                         <div class="mb-5">
                             <h3>Social</h3>
                             <ul class="list-unstyled footer-social">
-                                <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
-                                <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
-                                <li><a href="#"><span class="fa fa-instagram"></span> Instagram</a></li>
-                                <li><a href="#"><span class="fa fa-vimeo"></span> Vimeo</a></li>
-                                <li><a href="#"><span class="fa fa-youtube-play"></span> Youtube</a></li>
-                                <li><a href="#"><span class="fa fa-snapchat"></span> Snapshot</a></li>
+                        <?php 
+                             $allLink = $site->allSocial();
+                            if ($allLink) {
+                                while ($link = mysqli_fetch_assoc($allLink)) {
+                                    ?>
+                            <li><a href="<?=$link['twtter']?>"><span class="fa fa-twitter"></span> Twitter</a></li>
+                            <li><a href="<?=$link['facebook']?>"><span class="fa fa-facebook"></span> Facebook</a></li>
+                            <li><a href="<?=$link['insta']?>"><span class="fa fa-instagram"></span> Instagram</a></li>
+                            <li><a href="<?=$link['youtube']?>"><span class="fa fa-youtube-play"></span> Youtube</a></li>
+                                    <?php
+
+                                }
+                            }
+                        ?>
+                                
                             </ul>
                         </div>
                     </div>
@@ -91,7 +103,7 @@
                     Copyright &copy; <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All Rights Reserved | This template is made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    </script> All Rights Reserved | This template is made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Web Master</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>

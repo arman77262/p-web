@@ -2,6 +2,8 @@
 include_once 'inc/header.php';
 include_once 'classes/SiteOption.php';
 $sop = new SiteOption();
+include_once 'classes/Post.php';
+$post = new Post();
 include_once 'helpers/Format.php';
 $fr = new Format();
 ?>
@@ -38,7 +40,14 @@ $fr = new Format();
           <div class="col-md-12">
 
             <?php
-            $lestestPost = $sop->latestPost();
+            $limit = 2;
+            if (isset($_GET['page'])) {
+              $page = $_GET['page'];
+            }else {
+              $page = 1;
+            }
+            $offset = ($page - 1) * $limit;
+            $lestestPost = $sop->latestPost($offset, $limit);
             if ($lestestPost) {
               while ($row = mysqli_fetch_assoc($lestestPost)) {
             ?>
@@ -70,15 +79,48 @@ $fr = new Format();
         <div class="row">
           <div class="col-md-12 text-center">
             <nav aria-label="Page navigation" class="text-center">
+              <?php 
+                $num_page = $post->numPost();
+                if ($num_page) {
+                  $total_record = mysqli_num_rows($num_page);
+                  $total_page = ceil($total_record / $limit);
+                  ?>
               <ul class="pagination">
-                <li class="page-item  active"><a class="page-link" href="#">&lt;</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+                <?php 
+                  if ($page > 1) {
+                    ?>
+                  <li class="page-item"><a class="page-link" href="about.php?page=<?=$page - 1?>">&lt;</a></li>
+                    <?php
+                  }
+                ?>
+                
+                <?php 
+                  for ($i=1; $i <= $total_page ; $i++) { 
+                    if ($i == $page) {
+                      $active = 'active';
+                    }else {
+                      $active = '';
+                    }
+                    ?>
+                  <li class="page-item <?=$active?>"><a class="page-link" href="about.php?page=<?=$i?>"><?=$i?></a></li>
+                    <?php
+                  }
+                ?>
+                
+                <?php 
+                  if ($total_page > $page) {
+                    ?>
+                  <li class="page-item"><a class="page-link" href="about.php?page=<?=$page + 1?>">&gt;</a></li>
+                    <?php
+                  }
+                ?>
+                
               </ul>
+                  <?php
+                }
+              ?>
+              
+            </nav>
             </nav>
           </div>
         </div>

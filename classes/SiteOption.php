@@ -122,11 +122,54 @@
         }
 
         //About Page Latest Post
-         public function latestPost(){
-            $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC LIMIT 4";
+         public function latestPost($offset, $limit){
+            $post_query = "SELECT tbl_post.*, tbl_user.username, tbl_user.image FROM tbl_post INNER JOIN tbl_user ON tbl_post.userId = tbl_user.userId WHERE tbl_post.status = '1' ORDER BY tbl_post.postId DESC LIMIT $offset, $limit";
 
             $post_result = $this->db->select($post_query);
             return $post_result;
+        }
+
+        //Add Contact Page
+        public function addContact($data){
+            $name = $this->fr->validation($data['name']);
+            $email = $this->fr->validation($data['email']);
+            $phone = $this->fr->validation($data['phone']);
+            $message = $this->fr->validation($data['message']);
+
+            if ($name == '' || $email == '' || $phone == '' || $message == '') {
+                $msg = "Filds Must Not be empty";
+                return $msg;
+            }else {
+                $contcat_insert = "INSERT INTO tbl_contact(name,email,phone,message) VALUES('$name', '$email', '$phone', '$message')";
+                $contact = $this->db->insert($contcat_insert);
+                if ($contact) {
+                    $msg = "Message Send Successfully";
+                    return $msg;
+                }else {
+                    $msg = "Something Wrong Message Not Send";
+                    return $msg;
+                }
+            }
+        }
+
+        //All Contact Msg
+        public function allContact(){
+            $select = "SELECT * FROM tbl_contact ORDER BY contactId DESC";
+            $result = $this->db->select($select);
+            return $result;
+        }
+
+        //Delete Contact
+        public function deleteContact($id){
+            $delete = "DELETE FROM tbl_contact WHERE contactId = '$id'";
+            $result = $this->db->delete($delete);
+            if ($result) {
+                $msg = "Message Delete Successfully";
+                    return $msg;
+            }else {
+                $msg = "Message Not Delete";
+                    return $msg;
+            }
         }
     }
 
