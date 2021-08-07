@@ -66,7 +66,7 @@
                         while ($prow = mysqli_fetch_assoc($allPost)) {
                             ?>
                 <li>
-                    <a href="">
+                    <a href="blog-single.php?singleId=<?=base64_encode($prow['postId'])?>">
                         <img src="admin/<?=$prow['imageOne']?>" alt="Image placeholder" class="mr-4">
                         <div class="text">
                             <h4><?=$prow['title']?></h4>
