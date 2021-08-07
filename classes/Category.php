@@ -124,6 +124,13 @@
             $c_result = $this->db->select($cat_id);
             return $c_result;
        }
+
+       //index page total category
+       public function totalCategory(){
+           $toal_q = "SELECT * FROM tbl_category";
+           $total_r = $this->db->select($toal_q);
+           return $total_r;
+       }
     }
 
 ?>

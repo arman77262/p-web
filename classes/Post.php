@@ -293,6 +293,13 @@
          $res = $this->db->select($select_cat_q);
          return $res;
      }
+
+     //Index page total post
+     public function totalPost(){
+         $total_que = "SELECT * FROM tbl_post";
+         $total_post = $this->db->select($total_que);
+         return $total_post;
+     }
     }
 
 ?>

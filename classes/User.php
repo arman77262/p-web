@@ -78,6 +78,13 @@
                 }
             }
         }
+
+        //dashboard total user
+        public function totalUser(){
+           $toal_q = "SELECT * FROM tbl_user";
+           $total_r = $this->db->select($toal_q);
+           return $total_r;
+       }
     }
 
 ?>
