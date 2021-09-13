@@ -41,7 +41,7 @@ $post = new Post();
                     <div class="post-meta">
                       <span class="author mr-2"><img src="admin/<?=$row['image']?>" alt="U"> <?=$row['username']?></span>&bullet;
                       <span class="mr-2"><?=$fr->fromatdate($row['create_time'])?> </span> &bullet;
-                      <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                    
                     </div>
                     <h2><?=$row['title']?></h2>
                   </div>

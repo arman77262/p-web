@@ -44,8 +44,8 @@
                         <div class="col-9 social">
                             <a href="<?=$link['twtter']?>"><span class="fa fa-twitter"></span></a>
                             <a href="<?=$link['facebook']?>" target="_blank"><span class="fa fa-facebook"></span></a>
-                            <a href="#"><span class="fa fa-instagram"></span></a>
-                            <a href="#"><span class="fa fa-youtube-play"></span></a>
+                            <a href="<?=$link['insta']?>"><span class="fa fa-instagram"></span></a>
+                            <a href="<?=$link['youtube']?>"><span class="fa fa-youtube-play"></span></a>
                         </div>
                                     <?php
                                 }
